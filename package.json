@@ -1,6 +1,6 @@
 {
   "name": "gofer-stores",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Storage Scripts to use alongside of gofer Engine.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -53,7 +53,7 @@
   "dependencies": {
     "@commitlint/config-conventional": "^17.4.2",
     "surrealdb.js": "^0.5.0",
-    "ts-hl7": "^0.0.2"
+    "ts-hl7": "^0.0.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.4.2",
