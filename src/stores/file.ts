@@ -92,7 +92,6 @@ class DBStore {
     const contents =
       this.format === "string" ? data.toString() : JSON.stringify(data.raw());
     return new Promise<boolean>((res, rej) => {
-
       fs.writeFile(
         fullPath,
         contents,
@@ -101,18 +100,18 @@ class DBStore {
           if (err) {
             if (this.warnOnError) {
               console.warn(err);
-              res(false)
+              res(false);
             } else {
               console.error(err);
-              rej(err)
+              rej(err);
             }
           } else {
             if (this.verbose) console.log(`file written to ${fullPath}`);
-            res(true)
+            res(true);
           }
         }
       );
-    })
+    });
   };
 }
 

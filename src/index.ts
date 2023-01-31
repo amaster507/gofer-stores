@@ -1,11 +1,9 @@
-import surreal, {
-  IDBStoreOptions as surrealOpts
-} from "./stores/surreal";
+import surreal, { IDBStoreOptions as surrealOpts } from "./stores/surreal";
 import file, { IDBStoreOptions as fileOpts } from "./stores/file";
 
 const stores = {
   surreal,
-  file
+  file,
 } as const;
 
 export interface StoreOptions {
