@@ -31,6 +31,8 @@ module.exports = {
       path: false,
       util: false,
       fs: false,
+      crypto: false,
+      process: false,
     },
   },
 };

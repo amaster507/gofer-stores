@@ -50,7 +50,6 @@
   "homepage": "https://github.com/amaster507/gofer-stores#readme",
   "dependencies": {
     "@commitlint/config-conventional": "^17.4.2",
-    "crypto": "^1.0.1",
     "surrealdb.js": "^0.5.0",
     "ts-hl7": "^0.0.2"
   },
