@@ -1,0 +1,48 @@
+{
+  "name": "gofer-stores",
+  "version": "0.0.1",
+  "description": "Storage Scripts to use alongside of gofer Engine.",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "surreal:test": "docker run -d -p 8000:8000 surrealdb/surrealdb:latest start --user root --pass root memory",
+    "package": "npm run build && npm pack",
+    "pretest": "npm run surreal:test",
+    "test": "jest || :",
+    "posttest": "docker stop $(docker ps -q)"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amaster507/gofer-stores.git"
+  },
+  "keywords": [
+    "DB",
+    "Database",
+    "Storage",
+    "File",
+    "Surreal",
+    "Gofer",
+    "HL7",
+    "Healthcare",
+    "Interoperability"
+  ],
+  "author": "amaster507",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amaster507/gofer-stores/issues"
+  },
+  "homepage": "https://github.com/amaster507/gofer-stores#readme",
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "surrealdb.js": "^0.5.0",
+    "ts-hl7": "^0.0.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.4.0",
+    "@types/node": "^18.11.18",
+    "jest": "^29.4.1",
+    "prettier": "^2.8.3",
+    "ts-jest": "^29.0.5",
+    "typescript": "^4.9.5"
+  }
+}
