@@ -9,7 +9,7 @@
     "outDir": "dist/",
     "module": "commonjs",
     "resolveJsonModule": true,
-    "declaration": true,
+    "declaration": true
   },
   "include": ["src/*"]
 }

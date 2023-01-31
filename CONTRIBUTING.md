@@ -10,7 +10,7 @@ Here are the steps to follow to create a new store
 4. Export your `DBStore` class as the default export.
 5. Modify the `src/index.ts` file with the following:
    - Import your store's default export as the same name of your store. eg: `sql`
-   - Import your store's `IDBStoreOptions` following the same naming conventions. eg:  `sqlOpts`
+   - Import your store's `IDBStoreOptions` following the same naming conventions. eg: `sqlOpts`
    - Add your store to the `stores` object.
    - Add your store options to the `StoreOptions` object. The key should be the same as the name of your store.
 6. If applicable, create a `package.json` script to start a docker run for your storage solution. Refer to: `sureal:test`.

@@ -1,7 +1,7 @@
-import Msg from "ts-hl7";
+import Msg from 'ts-hl7'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type StoreFunc = (data: Msg, id?: string) => Promise<boolean>;
+export type StoreFunc = (data: Msg, id?: string) => Promise<boolean>
 
 /**
  * @param id - When defined in the Store Config, this id prop accepts a HL7 reference like `$MSH-10.1`. Or can also use `UUID` to generate a universally unique identifier.
@@ -9,5 +9,5 @@ export type StoreFunc = (data: Msg, id?: string) => Promise<boolean>;
  * @todo Support multiple HL7 references in a formatted reference like `${MSH-9.1}_${MSH-10-1}`
  */
 export interface StoreOption {
-  id?: string;
+  id?: string
 }
