@@ -1,5 +1,14 @@
 import Msg from 'ts-hl7'
 
+export type RequireOnlyOne<T, Keys extends keyof T = keyof T> = Pick<
+  T,
+  Exclude<keyof T, Keys>
+> &
+  {
+    [K in Keys]-?: Required<Pick<T, K>> &
+      Partial<Record<Exclude<Keys, K>, undefined>>
+  }[Keys]
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type StoreFunc = (data: Msg, id?: string) => Promise<boolean>
 

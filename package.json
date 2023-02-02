@@ -1,6 +1,6 @@
 {
   "name": "gofer-stores",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Storage Scripts to use alongside of gofer Engine.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
