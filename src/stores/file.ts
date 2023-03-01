@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto'
 import fs from 'fs'
 import Msg from 'ts-hl7'
-import { StoreFunc, StoreOption } from '../types'
+import { ExportableDB, StoreFunc, StoreOption } from '../types'
 
 /**
  * @param path - Accepts HL7 references like `['$PID-5[1].1', 'test', '$PID-3[1].1']`. Each element in array is a directory. Empty strings will be filtered out.
@@ -112,6 +112,34 @@ class DBStore {
         }
       )
     })
+  }
+  public export = <T>(): ExportableDB<T> => {
+    return {
+      connect: () => {
+        /* no-op */
+      },
+      getTask: () => {
+        /* no-op */
+      },
+      deleteTask: () => {
+        /* no-op */
+      },
+      putTask: () => {
+        /* no-op */
+      },
+      takeFirstN: () => {
+        /* no-op */
+      },
+      takeLastN: () => {
+        /* no-op */
+      },
+      getLock: () => {
+        /* no-op */
+      },
+      releaseLock: () => {
+        /* no-op */
+      },
+    }
   }
 }
 
