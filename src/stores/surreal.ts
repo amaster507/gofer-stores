@@ -1,7 +1,8 @@
 import { randomUUID } from 'crypto'
 import { env } from 'process'
-import Surreal, { Auth } from 'surrealdb.js'
+import Surreal from 'surrealdb.js'
 import { StoreFunc, StoreOption } from '../types'
+import { AnyAuth } from 'surrealdb.js/types/types'
 
 // Install SurrealDB: https://surrealdb.com/install
 
@@ -30,7 +31,7 @@ export interface StoreOptions {
 
 class DBStore {
   private db: Surreal
-  private credentials: Auth
+  private credentials: AnyAuth
   private warnOnError: NonNullable<IDBStoreOptions['warnOnError']>
   private verbose: NonNullable<IDBStoreOptions['verbose']>
   private namespace: NonNullable<IDBStoreOptions['namespace']>

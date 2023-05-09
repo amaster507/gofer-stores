@@ -1,6 +1,6 @@
 {
   "name": "gofer-stores",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "Storage Scripts to use alongside of gofer Engine.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -16,12 +16,12 @@
     "build:umd": "node tools/cleanup umd && webpack --config config/webpack.config.js",
     "clean": "node tools/cleanup",
     "lint": "eslint",
-    "surreal:test": "docker run -d -p 8000:8000 surrealdb/surrealdb:latest start --user root --pass root memory",
+    "surreal:test": "docker run -d -p 8000:8000 surrealdb/surrealdb:latest start --user root --pass root memory >> local/docker.id",
     "package": "npm run build && npm pack",
     "postinstall": "husky install",
     "pretest": "npm run surreal:test",
     "test": "jest || :",
-    "posttest": "docker stop $(docker ps -q)"
+    "posttest": "cat local/docker.id | xargs docker stop | xargs docker rm | rm local/docker.id"
   },
   "publishConfig": {
     "access": "public"
@@ -52,8 +52,8 @@
   "homepage": "https://github.com/amaster507/gofer-stores#readme",
   "dependencies": {
     "@commitlint/config-conventional": "^17.4.2",
-    "surrealdb.js": "^0.5.0",
-    "ts-hl7": "^0.0.3"
+    "surrealdb.js": "^0.7.1",
+    "ts-hl7": "^0.1.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.4.2",
