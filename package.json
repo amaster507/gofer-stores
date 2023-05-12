@@ -1,6 +1,6 @@
 {
   "name": "gofer-stores",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Storage Scripts to use alongside of gofer Engine.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -18,7 +18,7 @@
     "lint": "eslint",
     "surreal:test": "docker run -d -p 8000:8000 surrealdb/surrealdb:latest start --user root --pass root memory >> local/docker.id",
     "package": "npm run build && npm pack",
-    "postinstall": "husky install",
+    "_postinstall": "husky install",
     "pretest": "npm run surreal:test",
     "test": "jest || :",
     "posttest": "cat local/docker.id | xargs docker stop | xargs docker rm | rm local/docker.id"
