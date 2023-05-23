@@ -1,4 +1,4 @@
-import { MongoClient, MongoClientOptions } from 'mongodb'
+import { Collection, MongoClient, MongoClientOptions } from 'mongodb'
 import { IStoreClass, StoreFunc, StoreOption } from '../types'
 import { randomUUID } from 'crypto'
 
@@ -94,6 +94,17 @@ class DBStore implements IStoreClass {
   }
   public close = async () => {
     this.db.close()
+  }
+  public query = async <D extends Document>(collection: string, db?: string, cb?: (collection: Collection<D>) => Promise<unknown>) => {
+    if (!this.client) {
+      this.client = await this.db.connect()
+    }
+    const col = this.client.db(db).collection<D>(collection)
+    if (cb) {
+      return cb(col)
+    } else {
+      return col.find()
+    }
   }
 }
 

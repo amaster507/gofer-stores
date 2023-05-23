@@ -116,6 +116,24 @@ class DBStore implements IStoreClass {
   public close = async () => {
     // nothing to do here for this store
   }
+  /**
+   * @param query - Accepts a file path or directory path
+   * @returns - Returns the contents of the file or an array of file contents 
+   */
+  public query = async (query: string): Promise<null | string | string[]> => {
+    const path = fs.lstatSync(query)
+
+    // if query is a directory path, return the contens of the files in an array
+    if (path.isDirectory()) {
+      const files = fs.readdirSync(query)
+      return files.map(file => fs.readFileSync(`${query}/${file}`, 'utf8'))
+    // if query is a file path, read the file and return the contents
+    } else if (path.isFile()) {
+      return fs.readFileSync(query, 'utf8')
+    } else {
+      return null
+    }
+  }
 }
 
 export default DBStore

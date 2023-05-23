@@ -273,6 +273,39 @@ class DBStore implements IStoreClass {
       ['Message.value']: hl7,
     }
   }
+  public query = async (query: string, mutations?: Mutation[], variables?: Record<string, unknown>): Promise<Response | undefined> => {
+    const mus = mutations ?? []
+    const request = new Request()
+    if (query) {
+      if (variables) {
+        const varsMap = request.getVarsMap()
+        for (const property in variables) {
+          varsMap.set(property, variables[property])
+        }
+      }
+      request.setQuery(query)
+    }
+    if (mutations) {
+      request.setMutationsList(mutations)
+    }
+    request.setCommitNow(true)
+    const txn = this.db.newTxn()
+    let response: Response | undefined = undefined
+
+    try {
+      response = await txn.doRequest(request)
+    } catch (e) {
+      if (this.warnOnError) {
+        console.warn(e)
+      } else {
+        throw e
+      }
+    } finally {
+      await txn.discard()
+    }
+
+    return response
+  }
 }
 
 export default DBStore

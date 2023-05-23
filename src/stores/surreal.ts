@@ -109,6 +109,7 @@ class DBStore implements IStoreClass {
   public close = async () => {
     this.db.close()
   }
+  public query = (query: string, vars?: Record<string, unknown>) => this.db.query(query, vars)
 }
 
 export default DBStore

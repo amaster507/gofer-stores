@@ -3,6 +3,7 @@ import Msg from 'ts-hl7'
 export interface IStoreClass {
   store: StoreFunc
   close: () => Promise<void>
+  query: (query: string) => Promise<unknown>
 }
 
 export type RequireOnlyOne<T, Keys extends keyof T = keyof T> = Pick<
