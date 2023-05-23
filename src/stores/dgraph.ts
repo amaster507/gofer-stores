@@ -273,7 +273,7 @@ class DBStore implements IStoreClass {
       ['Message.value']: hl7,
     }
   }
-  public query = async (query: string, mutations?: Mutation[], variables?: Record<string, unknown>): Promise<Response | undefined> => {
+  public query = async (query: string, mutations?: Mutation[], variables?: Record<string, string>): Promise<Response | undefined> => {
     const mus = mutations ?? []
     const request = new Request()
     if (query) {
