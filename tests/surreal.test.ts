@@ -10,6 +10,10 @@ const hl7 = fs.readFileSync('./sample.hl7', 'utf8')
 
 const msg = new Msg(hl7)
 
+afterAll(async () => {
+  await sdb.close()
+})
+
 test('store', async () => {
   await sdb.signin({ user: 'root', pass: 'root' })
   await sdb.use('test', 'test')
@@ -24,8 +28,8 @@ test('store', async () => {
   return db.store(msg).then(async () => {
     const storedRecord = await sdb.query<({ meta: MessageMeta, segs: Segments }[])[]>('SELECT meta, msg as segs FROM test')
     const { meta, segs } = storedRecord?.[0].result?.[0] ?? {}
-    sdb.close()
     const msg = new Msg([meta as MessageMeta, segs as Segments])
+    db.close()
     expect(msg.toString()).toBe(hl7)
   })
 })

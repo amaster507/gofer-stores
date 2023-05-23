@@ -16,10 +16,6 @@ const config: Config = {
       '^.+\\.(ts|tsx)$': ['ts-jest', 'tsconfig.json'],
     },
   },
-  fakeTimers: {
-    enableGlobally: true,
-    now: new Date('2023-01-11T00:15:27.216Z').getTime(),
-  },
 }
 
 export default config

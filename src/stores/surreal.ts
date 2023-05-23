@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto'
 import { env } from 'process'
 import Surreal from 'surrealdb.js'
-import { StoreFunc, StoreOption } from '../types'
+import { IStoreClass, StoreFunc, StoreOption } from '../types'
 import { AnyAuth } from 'surrealdb.js/types/types'
 
 // Install SurrealDB: https://surrealdb.com/install
@@ -15,6 +15,10 @@ export interface IDBStoreOptions extends StoreOption {
   namespace?: string
   database?: string
   table?: string
+  // whether or not to use the normalized JSON or the loose JSON.
+  // loose JSON is the default.
+  // normalized JSON is the same
+  normalized?: boolean
 }
 
 const { envUser, envPpass } = {
@@ -29,7 +33,7 @@ export interface StoreOptions {
   verbose?: boolean
 }
 
-class DBStore {
+class DBStore implements IStoreClass {
   private db: Surreal
   private credentials: AnyAuth
   private warnOnError: NonNullable<IDBStoreOptions['warnOnError']>
@@ -38,6 +42,7 @@ class DBStore {
   private database: NonNullable<IDBStoreOptions['database']>
   private table: NonNullable<IDBStoreOptions['table']>
   private id: NonNullable<IDBStoreOptions['id']>
+  private normalized: NonNullable<IDBStoreOptions['normalized']>
   constructor({
     uri = 'http://127.0.0.1:8000/rpc',
     user,
@@ -48,6 +53,7 @@ class DBStore {
     database = 'test',
     table = 'test',
     id = '$MSH-10.1',
+    normalized = false,
   }: IDBStoreOptions = {}) {
     this.warnOnError = warnOnError
     this.verbose = verbose
@@ -59,6 +65,7 @@ class DBStore {
     pass = pass ?? envPpass ?? 'root'
     this.credentials = { user, pass }
     this.db = new Surreal(uri)
+    this.normalized = normalized
   }
   public store: StoreFunc = async (data) => {
     const namespace = this.namespace.match(/^\$[A-Z][A-Z0-9]{2}/)
@@ -75,14 +82,16 @@ class DBStore {
         ? randomUUID()
         : this.id.match(/^\$[A-Z][A-Z0-9]{2}/)
         ? (data.get(this.id.slice(1) ?? randomUUID()) as string)
-        : this.table
+        : this.id
     return new Promise<boolean>(async (res, rej) => {
       try {
         await this.db.signin(this.credentials)
 
         await this.db.use(namespace, database)
         const identifier = id ? `${table}:⟨${id}⟩` : table
-        const contents = { meta: data.raw()[0], msg: data.raw()?.[1] }
+        const contents = this.normalized
+          ? data.json(true)
+          : { meta: data.json()[0], msg: data.json()?.[1] }
         const created = await this.db.create(identifier, contents)
         if (this.verbose)
           console.log(`Created ID: ${created.id} in ${namespace}:${database}`)
@@ -96,6 +105,9 @@ class DBStore {
         }
       }
     })
+  }
+  public close = async () => {
+    this.db.close()
   }
 }
 

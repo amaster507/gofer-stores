@@ -1,5 +1,10 @@
 import Msg from 'ts-hl7'
 
+export interface IStoreClass {
+  store: StoreFunc
+  close: () => Promise<void>
+}
+
 export type RequireOnlyOne<T, Keys extends keyof T = keyof T> = Pick<
   T,
   Exclude<keyof T, Keys>

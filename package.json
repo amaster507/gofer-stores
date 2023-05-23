@@ -16,10 +16,12 @@
     "build:umd": "node tools/cleanup umd && webpack --config config/webpack.config.js",
     "clean": "node tools/cleanup",
     "lint": "eslint",
-    "surreal:test": "docker run -d -p 8000:8000 surrealdb/surrealdb:latest start --user root --pass root memory >> local/docker.id",
+    "docker:surreal": "docker run -d -p 8000:8000 surrealdb/surrealdb:latest start --user root --pass root memory >> local/docker.id",
+    "docker:dgraph": "docker run -d -p 8080:8080 -p 9080:9080 dgraph/standalone:latest",
+    "docker:mongo": "docker run -d -p 27017:27017 mongo:latest >> local/docker.id",
     "package": "npm run build && npm pack",
     "postinstall": "husky install",
-    "pretest": "npm run surreal:test",
+    "pretest": "npm run docker:surreal && npm run docker:mongo && npm run docker:dgraph",
     "test": "jest || :",
     "posttest": "cat local/docker.id | xargs docker stop | xargs docker rm | rm local/docker.id"
   },
@@ -52,13 +54,16 @@
   "homepage": "https://github.com/amaster507/gofer-stores#readme",
   "dependencies": {
     "@commitlint/config-conventional": "^17.4.2",
-    "surrealdb.js": "0.7.1",
+    "@grpc/grpc-js": "^1.8.14",
+    "dgraph-js": "^21.3.1",
+    "mongodb": "^5.5.0",
+    "surrealdb.js": "0.7.3",
     "ts-hl7": "^1.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.4.2",
     "@types/jest": "^29.4.0",
-    "@types/node": "^18.11.18",
+    "@types/node": "^18.16.13",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "@typescript-eslint/parser": "^5.50.0",
     "eslint": "^8.33.0",
@@ -70,6 +75,7 @@
     "prettier": "^2.8.3",
     "ts-jest": "^29.0.5",
     "ts-loader": "^9.4.2",
+    "type-fest": "^3.11.0",
     "typescript": "^4.9.5",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1"

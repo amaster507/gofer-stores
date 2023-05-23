@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto'
 import fs from 'fs'
 import Msg from 'ts-hl7'
-import { StoreFunc, StoreOption } from '../types'
+import { IStoreClass, StoreFunc, StoreOption } from '../types'
 
 /**
  * @param path - Accepts HL7 references like `['$PID-5[1].1', 'test', '$PID-3[1].1']`. Each element in array is a directory. Empty strings will be filtered out.
@@ -20,7 +20,7 @@ export interface IDBStoreOptions extends StoreOption {
   verbose?: boolean
 }
 
-class DBStore {
+class DBStore implements IStoreClass {
   private path: NonNullable<IDBStoreOptions['path']>
   private overwrite: NonNullable<IDBStoreOptions['overwrite']>
   private append: NonNullable<IDBStoreOptions['append']>
@@ -112,6 +112,9 @@ class DBStore {
         }
       )
     })
+  }
+  public close = async () => {
+    // nothing to do here for this store
   }
 }
 
